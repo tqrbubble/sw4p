@@ -1,0 +1,145 @@
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #4a4a4a, #2b2b2b, #1e1e1e);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+body {
+    width: 100%;
+}
+
+.chat-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    border-radius: 0;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.1);
+    box-shadow: none;
+    backdrop-filter: blur(10px);
+}
+
+.chat-box {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    color: #fff;
+}
+
+.message {
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    font-size: 16px;
+    line-height: 1.4;
+    word-wrap: break-word;
+    white-space: pre-wrap; /* This ensures that new lines and tabs are respected */
+    opacity: 0; /* Start as invisible */
+    animation: fadeIn 0.5s forwards; /* Apply fade-in effect */
+}
+
+.message.user {
+    background: linear-gradient(135deg, #6d6d6d, #3d3d3d);
+    align-self: flex-end;
+    text-align: right;
+    box-shadow: 0 4px 12px rgba(109, 109, 109, 0.4);
+    max-width: 100%;
+    width: fit-content;
+    margin-left: auto;
+}
+
+.message.bot {
+    background: linear-gradient(135deg, #9e9e9e, #6e6e6e, #4e4e4e);
+    align-self: flex-start;
+    text-align: left;
+    box-shadow: 0 4px 12px rgba(158, 158, 158, 0.4);
+    max-width: 100%;
+    width: fit-content;
+    margin-right: auto;
+}
+
+.input-container {
+    display: flex;
+    padding: 16px;
+    background: rgba(0, 0, 0, 0.1);
+    border-top: 2px solid rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+}
+
+#messageInput {
+    flex: 1;
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.2);
+    color: #fff;
+    outline: none;
+    font-size: 16px;
+}
+
+#sendMessage {
+    padding: 14px 20px;
+    margin-left: 10px;
+    border: none;
+    background: linear-gradient(135deg, #6d6d6d, #3d3d3d);
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(109, 109, 109, 0.4);
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+#sendMessage:hover {
+    background: linear-gradient(135deg, #3d3d3d, #6d6d6d);
+    box-shadow: 0 6px 18px rgba(109, 109, 109, 0.6);
+}
+
+/* CSS for Three Dots Loading Animation - Smaller and White Dots */
+
+.message.loading {
+    display: flex;
+    align-items: center;
+    height: 24px;
+}
+
+.message.loading .dot {
+    width: 6px; /* Smaller width */
+    height: 6px; /* Smaller height */
+    background-color: #fff; /* White color */
+    border-radius: 50%;
+    margin: 0 3px; /* Adjust spacing between dots */
+    animation: bounce 1.4s infinite ease-in-out both;
+}
+
+.message.loading .dot:nth-child(1) {
+    animation-delay: -0.32s;
+}
+
+.message.loading .dot:nth-child(2) {
+    animation-delay: -0.16s;
+}
+
+@keyframes bounce {
+    0%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-6px); /* Adjust bounce height */
+    }
+}
