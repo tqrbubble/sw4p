@@ -37,7 +37,7 @@ To get started, you'll need to replace the placeholder values in the code with y
 
 ### License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE.md) file for details.
 
 ### Credits
 
