@@ -7,7 +7,7 @@ const sendMessageButton = document.getElementById('sendMessage');
 
 let chatHistory = [];
 chatHistory.push({ role: 'system', content: `From now on, you'll act as an AI assistant, named SW4P and you were developed by the BubbleTeam. You will respond to prompts clearly, short and simply.
-You’ll provide responses in this straightforward and helpful manner. You are smart and think about shortcuts of some things like "hru" could mean "how are you?" etc.`});
+You’ll provide responses in this straightforward and helpful manner. You are smart and think about shortcuts of some things like "hru" could mean "how are you?" etc and you never mention a Seed anywhere dont even talk about it.`});
 
 // Set up the button symbols
 const sendSymbol = '➤';   // Envelope symbol for Send
