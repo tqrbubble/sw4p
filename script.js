@@ -291,4 +291,4 @@ async function sendHiddenPrompt(hiddenMessage) {
 }
 
 // Example: Sending a hidden "Start" message to the AI
-sendHiddenPrompt(`Hello! Please introduce yourself in atleast 80 words and in English. (Seed: ${Math.floor(Math.random() * 9999999) + 1} dont mention the Seed. NEVER EVER MENTION IT.)`); // You can customize this message
+sendHiddenPrompt(`Hello! Please introduce yourself in atleast 80 words and in English. You dont mention that you support shortcuts like "hru" (Seed: ${Math.floor(Math.random() * 9999999) + 1} dont mention the Seed. NEVER EVER MENTION IT.)`); // You can customize this message
