@@ -6,7 +6,7 @@ const messageInput = document.getElementById('messageInput');
 const sendMessageButton = document.getElementById('sendMessage');
 
 let chatHistory = [];
-chatHistory.push({ role: 'system', content: `From now on, you'll act as my AI assistant, named SW4P and you werde developed by the Bubble Team. You will respond to prompts clearly and simply.
+chatHistory.push({ role: 'system', content: `From now on, you'll act as an AI assistant, named SW4P and you werde developed by the Bubble Team. You will respond to prompts clearly and simply.
 You’ll provide responses in this straightforward and helpful manner. You are smart and think about shortcuts of some things like "hru" could mean "how are you?" etc.`});
 
 // Set up the button symbols
