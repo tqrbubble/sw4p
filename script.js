@@ -57,6 +57,7 @@ sendMessageButton.addEventListener('click', async () => {
         try {
             await loadingPromise; // Ensure loading element is shown before proceeding
 
+            const seed = Math.floor(Math.random() * 1000000);
             const response = await fetch(`https://api-inference.huggingface.co/v1/chat/completions`, {
                 method: 'POST',
                 headers: {
@@ -67,7 +68,7 @@ sendMessageButton.addEventListener('click', async () => {
                     model: model,
                     messages: chatHistory,
                     max_tokens: 500,
-                    seed: ${Math.floor(Math.random() * 1000000);},
+                    seed: seed,
                     stream: true // Enable streaming
                 }),
                 signal // Pass the signal to the fetch request
@@ -222,6 +223,7 @@ async function sendHiddenPrompt(hiddenMessage) {
     try {
         await loadingPromise; // Ensure loading element is shown before proceeding
 
+        const seed = Math.floor(Math.random() * 1000000);
         const response = await fetch(`https://api-inference.huggingface.co/v1/chat/completions`, {
             method: 'POST',
             headers: {
@@ -232,7 +234,7 @@ async function sendHiddenPrompt(hiddenMessage) {
                 model: model,
                 messages: chatHistory,
                 max_tokens: 500,
-                seed: ${Math.floor(Math.random() * 1000000);},
+                seed: seed,
                 stream: true // Enable streaming
             }),
             signal // Pass the signal to the fetch request
