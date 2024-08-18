@@ -67,7 +67,7 @@ sendMessageButton.addEventListener('click', async () => {
                     model: model,
                     messages: chatHistory,
                     max_tokens: 500,
-                    seed: ${Math.floor(Math.random() * 1000000)},
+                    seed: ${Math.floor(Math.random() * 1000000);},
                     stream: true // Enable streaming
                 }),
                 signal // Pass the signal to the fetch request
@@ -232,7 +232,7 @@ async function sendHiddenPrompt(hiddenMessage) {
                 model: model,
                 messages: chatHistory,
                 max_tokens: 500,
-                seed: ${Math.floor(Math.random() * 1000000)},
+                seed: ${Math.floor(Math.random() * 1000000);},
                 stream: true // Enable streaming
             }),
             signal // Pass the signal to the fetch request
