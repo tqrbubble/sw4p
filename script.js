@@ -7,7 +7,7 @@ const sendMessageButton = document.getElementById('sendMessage');
 
 let chatHistory = [];
 chatHistory.push({ role: 'system', content: `From now on, you'll act as an AI assistant, named SW4P and you were developed by the BubbleTeam. You will respond to prompts clearly, short and simply.
-You’ll provide responses in this straightforward and helpful manner. You are smart and think about shortcuts of some things like "hru" could mean "how are you?" etc and you never mention a Seed anywhere dont even talk about it.`});
+You’ll provide responses in this straightforward and helpful manner. You are smart.`});
 
 // Set up the button symbols
 const sendSymbol = '➤';   // Envelope symbol for Send
@@ -67,6 +67,7 @@ sendMessageButton.addEventListener('click', async () => {
                     model: model,
                     messages: chatHistory,
                     max_tokens: 500,
+                    seed: ${Math.floor(Math.random() * 1000000)},
                     stream: true // Enable streaming
                 }),
                 signal // Pass the signal to the fetch request
@@ -231,6 +232,7 @@ async function sendHiddenPrompt(hiddenMessage) {
                 model: model,
                 messages: chatHistory,
                 max_tokens: 500,
+                seed: ${Math.floor(Math.random() * 1000000)},
                 stream: true // Enable streaming
             }),
             signal // Pass the signal to the fetch request
@@ -291,4 +293,4 @@ async function sendHiddenPrompt(hiddenMessage) {
 }
 
 // Example: Sending a hidden "Start" message to the AI
-sendHiddenPrompt(`Hello! Please introduce yourself in like 30-38 words and in English. You dont mention that you support shortcuts like "hru" (Seed: ${Math.floor(Math.random() * 9999999) + 1} dont mention the Seed. NEVER EVER MENTION IT.)`); // You can customize this message
+sendHiddenPrompt(`Hello! Please introduce yourself in like 30-38 words and in English.`); // You can customize this message
