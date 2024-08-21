@@ -12,6 +12,7 @@ You’ll provide responses in this straightforward and helpful manner. You are s
 // Set up the button symbols
 const sendSymbol = '➤';   // Envelope symbol for Send
 const cancelSymbol = '■'; // Cross mark symbol for Cancel
+const regenSymbol = '↻';  // Symbol for Regenerate (or choose another appropriate symbol)
 
 // Set the initial button text to the send symbol
 sendMessageButton.textContent = sendSymbol;
@@ -123,12 +124,21 @@ sendMessageButton.addEventListener('click', async () => {
                 if (loadingElement) {
                     chatBox.removeChild(loadingElement);
                 }
-                addMessage('bot', "Sorry, something went wrong. Please try again.", true);
+
+                // Change Send button to Regenerate button with symbol
+                sendMessageButton.textContent = regenSymbol;
+                sendMessageButton.onclick = () => {
+                    // Reset the input field to the previous user message
+                    messageInput.value = userMessage;
+                    sendMessageButton.click(); // Retry the send action
+                };
             }
         } finally {
-            // Reset the button to "Send" after completion or cancellation
-            sendMessageButton.textContent = sendSymbol;
-            sendMessageButton.onclick = null; // Reset to default click behavior
+            if (sendMessageButton.textContent !== regenSymbol) {
+                // Reset the button to "Send" after completion or cancellation
+                sendMessageButton.textContent = sendSymbol;
+                sendMessageButton.onclick = null; // Reset to default click behavior
+            }
         }
     }
 });
