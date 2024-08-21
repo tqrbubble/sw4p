@@ -12,23 +12,29 @@ You’ll provide responses in this straightforward and helpful manner. You are s
 // Set up the button symbols
 const sendSymbol = '➤';   // Envelope symbol for Send
 const cancelSymbol = '■'; // Cross mark symbol for Cancel
-const regenSymbol = '↻';  // Symbol for Regenerate (or choose another appropriate symbol)
+const regenerateSymbol = '⟳'; // Regenerate symbol for retrying
+
+let errorOccurred = false; // Flag to track if an error occurred
 
 // Set the initial button text to the send symbol
 sendMessageButton.textContent = sendSymbol;
 
 sendMessageButton.addEventListener('click', async () => {
+    if (errorOccurred) {
+        // If an error occurred, clicking will attempt to regenerate the response
+        regenerateResponse();
+        return;
+    }
+
     const userMessage = messageInput.value.trim();
     if (userMessage) {
         addMessage('user', userMessage); // Display the user's message immediately
         chatHistory.push({ role: 'user', content: userMessage });
         messageInput.value = '';
 
-        // Create a new AbortController to handle canceling the request
         const controller = new AbortController();
         const { signal } = controller;
 
-        // Delay the display of the loading animation
         let loadingElement;
         const loadingPromise = new Promise((resolve) => {
             setTimeout(() => {
@@ -37,10 +43,8 @@ sendMessageButton.addEventListener('click', async () => {
             }, 0);
         });
 
-        // Initialize a variable to hold the bot's partial message
         let botMessage = '';
 
-        // Change Send button to Cancel button with symbol
         sendMessageButton.textContent = cancelSymbol;
         sendMessageButton.onclick = () => {
             controller.abort(); // Cancel the request
@@ -48,11 +52,9 @@ sendMessageButton.addEventListener('click', async () => {
                 chatBox.removeChild(loadingElement); // Remove loading element
             }
             if (botMessage) {
-                // Add the partially received bot message to chat history
                 chatHistory.push({ role: 'assistant', content: botMessage });
             }
-            sendMessageButton.textContent = sendSymbol;
-            sendMessageButton.onclick = null; // Reset to default click behavior
+            resetButton();
         };
 
         try {
@@ -79,11 +81,9 @@ sendMessageButton.addEventListener('click', async () => {
                 throw new Error(`API Error: ${response.statusText}`);
             }
 
-            // Handle streaming response
             const reader = response.body.getReader();
             const decoder = new TextDecoder();
 
-            // Create a bot message element to update
             const botMessageElement = addMessage('bot', '', true);
 
             while (true) {
@@ -95,12 +95,11 @@ sendMessageButton.addEventListener('click', async () => {
 
                 for (const line of lines) {
                     if (line.startsWith('data: ')) {
-                        const json = line.slice(6); // Remove the "data: " prefix
+                        const json = line.slice(6);
                         try {
                             const parsed = JSON.parse(json);
                             if (parsed.choices && parsed.choices[0].delta) {
                                 botMessage += parsed.choices[0].delta.content || '';
-                                // Update the existing bot message element with the accumulated message
                                 botMessageElement.textContent = botMessage;
                             }
                         } catch (e) {
@@ -110,38 +109,44 @@ sendMessageButton.addEventListener('click', async () => {
                 }
             }
 
-            // Remove loading animation once the streaming is done
             if (loadingElement) {
                 chatBox.removeChild(loadingElement);
             }
 
-            // Add the complete bot message to chat history
             chatHistory.push({ role: 'assistant', content: botMessage });
-
+            resetButton(); // Reset button on success
         } catch (error) {
-            if (error.name !== 'AbortError') { // Handle only non-abort errors
+            if (error.name !== 'AbortError') {
                 console.error('Error fetching bot response:', error);
                 if (loadingElement) {
                     chatBox.removeChild(loadingElement);
                 }
-
-                // Change Send button to Regenerate button with symbol
-                sendMessageButton.textContent = regenSymbol;
-                sendMessageButton.onclick = () => {
-                    // Reset the input field to the previous user message
-                    messageInput.value = userMessage;
-                    sendMessageButton.click(); // Retry the send action
-                };
-            }
-        } finally {
-            if (sendMessageButton.textContent !== regenSymbol) {
-                // Reset the button to "Send" after completion or cancellation
-                sendMessageButton.textContent = sendSymbol;
-                sendMessageButton.onclick = null; // Reset to default click behavior
+                addMessage('bot', "Sorry, something went wrong. Please try again.", true);
+                setRegenerateMode(); // Switch to regenerate mode
             }
         }
     }
 });
+
+function setRegenerateMode() {
+    errorOccurred = true;
+    sendMessageButton.textContent = regenerateSymbol;
+    sendMessageButton.onclick = regenerateResponse;
+}
+
+function regenerateResponse() {
+    errorOccurred = false;
+    chatBox.lastChild.remove(); // Remove the error message
+    sendMessageButton.textContent = sendSymbol;
+    sendMessageButton.onclick = null; // Reset to default click behavior
+    sendMessageButton.click(); // Resend the request
+}
+
+function resetButton() {
+    sendMessageButton.textContent = sendSymbol;
+    sendMessageButton.onclick = null; // Reset to default click behavior
+    errorOccurred = false; // Reset error state
+}
 
 function addMessage(sender, content, wordByWord = false, isLoading = false) {
     const messageElement = document.createElement('div');
