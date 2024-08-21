@@ -67,7 +67,7 @@ sendMessageButton.addEventListener('click', async () => {
                 body: JSON.stringify({
                     model: model,
                     messages: chatHistory,
-                    max_tokens: 500,
+                    max_tokens: 3000,
                     seed: seed,
                     stream: true // Enable streaming
                 }),
@@ -233,7 +233,7 @@ async function sendHiddenPrompt(hiddenMessage) {
             body: JSON.stringify({
                 model: model,
                 messages: chatHistory,
-                max_tokens: 500,
+                max_tokens: 3000,
                 seed: seed,
                 stream: true // Enable streaming
             }),
