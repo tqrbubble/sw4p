@@ -20,7 +20,7 @@ sendMessageButton.addEventListener('click', async () => {
     const userMessage = messageInput.value.trim();
     if (userMessage) {
         addMessage('user', userMessage); // Display the user's message immediately
-        chatHistory.push({ role: 'user', content: `${userMessage} (Seed: ${Math.floor(Math.random() * 9999999) + 1})` });
+        chatHistory.push({ role: 'user', content: userMessage });
         messageInput.value = '';
 
         // Create a new AbortController to handle canceling the request
